@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.a47276138y.newsapp.databinding.GvNewspapersLogoBinding;
 
 import java.util.List;
@@ -40,9 +41,9 @@ public class AdapterDigitalNewspapers extends ArrayAdapter<DigitalNewspapers>{
             binding = DataBindingUtil.inflate(inflater, R.layout.gv_newspapers_logo, parent, false);
         }
 
+        Glide.with(getContext()).load(digitalNewspapers.getUrlToLogos()).into(binding.gvLogoNewspapers);
 
-
-        return convertView;
+        return binding.getRoot();
 
 
 
