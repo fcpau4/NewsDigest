@@ -1,12 +1,16 @@
 package com.example.a47276138y.newsapp;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import com.example.a47276138y.newsapp.databinding.GvNewspapersLogoBinding;
 
 import java.util.List;
 
@@ -28,10 +32,19 @@ public class AdapterDigitalNewspapers extends ArrayAdapter<DigitalNewspapers>{
         DigitalNewspapers digitalNewspapers = getItem(position);
         Log.w("XXXX", digitalNewspapers.toString());
 
+        GvNewspapersLogoBinding binding = null;
+
 
         if(convertView == null){
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.gv_newspapers_logo, parent, false);
+            binding = DataBindingUtil.inflate(inflater, R.layout.gv_newspapers_logo, parent, false);
         }
+
+
+
+        return convertView;
+
+
+
     }
 }
