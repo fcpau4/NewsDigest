@@ -35,11 +35,8 @@ public class MainActivityFragment extends Fragment {
                 data
         );
 
-
         gridView.setAdapter(adapter);
 
-
         return view;
-
     }
 }
