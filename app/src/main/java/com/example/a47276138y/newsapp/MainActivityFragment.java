@@ -1,5 +1,6 @@
 package com.example.a47276138y.newsapp;
 
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.example.a47276138y.newsapp.utilities.NetworkUtils;
+
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -38,5 +43,36 @@ public class MainActivityFragment extends Fragment {
         gridView.setAdapter(adapter);
 
         return view;
+    }
+
+    private void callAPI(){
+        URL newsApiSourcesUrl = NetworkUtils.buildSourcesUrl();
+        new GetSourcesTask().execute(newsApiSourcesUrl);
+    }
+
+
+    public class GetSourcesTask extends AsyncTask<URL, Void, String>{
+
+        @Override
+        protected String doInBackground(URL... urls) {
+            URL sourcesUrl = urls[0];
+            String newsSources=null;
+
+            try {
+                newsSources = NetworkUtils.getResponseFromHttpUrl(sourcesUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return newsSources;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(s!=null && !(s.equals(""))){
+                System.out.println(s);
+            }
+            super.onPostExecute(s);
+        }
     }
 }
