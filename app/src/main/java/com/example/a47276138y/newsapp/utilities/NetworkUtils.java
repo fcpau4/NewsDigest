@@ -15,27 +15,6 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-    final static private String NEWSAPI_SOURCES_URL = "https://newsapi.org/v1/sources";
-
-    /**
-     * Built a URL for getting news sources.
-     * @return
-     */
-    public static URL buildSourcesUrl(){
-
-        Uri builtUri = Uri.parse(NEWSAPI_SOURCES_URL).buildUpon()
-                .build();
-
-        URL url = null;
-
-        try {
-            url = new URL(builtUri.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
-
     /**
      * This method returns the entire result from the HTTP response.
      *

@@ -34,13 +34,13 @@ public class MainActivityFragment extends Fragment {
 
         GridView gridView = (GridView) view.findViewById(R.id.gv_newspapers);
 
-        adapter = new AdapterDigitalNewspapers(
+        /*adapter = new AdapterDigitalNewspapers(
                 getContext(),
                 R.layout.gv_newspapers_logo,
                 data
         );
 
-        gridView.setAdapter(adapter);
+        gridView.setAdapter(adapter);*/
 
         return view;
     }
@@ -60,6 +60,8 @@ public class MainActivityFragment extends Fragment {
 
             try {
                 newsSources = NetworkUtils.getResponseFromHttpUrl(sourcesUrl);
+                System.out.println("\n************\n" + newsSources + "\n************\n" );
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -67,12 +69,5 @@ public class MainActivityFragment extends Fragment {
             return newsSources;
         }
 
-        @Override
-        protected void onPostExecute(String s) {
-            if(s!=null && !(s.equals(""))){
-                System.out.println(s);
-            }
-            super.onPostExecute(s);
-        }
     }
 }
