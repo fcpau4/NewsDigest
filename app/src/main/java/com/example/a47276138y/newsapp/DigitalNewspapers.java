@@ -31,9 +31,4 @@ public class DigitalNewspapers {
     public void setCategory(String category) {this.category = category;}
 
 
-
-
-
-
-
 }

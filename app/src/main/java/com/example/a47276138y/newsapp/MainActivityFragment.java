@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.example.a47276138y.newsapp.utilities.APInews;
 import com.example.a47276138y.newsapp.utilities.NetworkUtils;
 
 import java.io.IOException;
@@ -51,22 +52,17 @@ public class MainActivityFragment extends Fragment {
     }
 
 
-    public class GetSourcesTask extends AsyncTask<URL, Void, String>{
+    public class GetSourcesTask extends AsyncTask<Void, Void, Void>{
 
         @Override
         protected String doInBackground(URL... urls) {
-            URL sourcesUrl = urls[0];
             String newsSources=null;
+            APInews api = new APInews();
 
-            try {
-                newsSources = NetworkUtils.getResponseFromHttpUrl(sourcesUrl);
-                System.out.println("\n************\n" + newsSources + "\n************\n" );
+            newsSources = api.getDigitalNewsSources();
+            System.out.println("\n************\n" + newsSources + "\n************\n" );
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return newsSources;
+            return null;
         }
 
     }
