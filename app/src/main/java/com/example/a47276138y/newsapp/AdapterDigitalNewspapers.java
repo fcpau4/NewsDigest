@@ -31,7 +31,7 @@ public class AdapterDigitalNewspapers extends ArrayAdapter<DigitalNewspapers>{
     public View getView(int position, View convertView, ViewGroup parent) {
 
         DigitalNewspapers digitalNewspapers = getItem(position);
-        Log.w("XXXX", digitalNewspapers.toString());
+        Log.w("AdapterGetView", "Come in Adapter" + "\t\t" + digitalNewspapers.getName() + "\t\t" + digitalNewspapers.getUrlToLogos());
 
         GvNewspapersLogoBinding binding = null;
 
@@ -39,8 +39,11 @@ public class AdapterDigitalNewspapers extends ArrayAdapter<DigitalNewspapers>{
         if(convertView == null){
             LayoutInflater inflater = LayoutInflater.from(getContext());
             binding = DataBindingUtil.inflate(inflater, R.layout.gv_newspapers_logo, parent, false);
+        }else{
+            binding = DataBindingUtil.getBinding(convertView);
         }
 
+        binding.gvNewspapersName.setText(digitalNewspapers.getName());
         Glide.with(getContext()).load(digitalNewspapers.getUrlToLogos()).into(binding.gvLogoNewspapers);
 
         return binding.getRoot();

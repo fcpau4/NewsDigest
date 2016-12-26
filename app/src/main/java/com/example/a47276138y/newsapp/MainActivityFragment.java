@@ -1,13 +1,16 @@
 package com.example.a47276138y.newsapp;
 
+import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.example.a47276138y.newsapp.databinding.FragmentMainBinding;
 import com.example.a47276138y.newsapp.utilities.APInews;
 import com.example.a47276138y.newsapp.utilities.NetworkUtils;
 
@@ -31,39 +34,52 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        FragmentMainBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
 
-        GridView gridView = (GridView) view.findViewById(R.id.gv_newspapers);
+        View view = binding.getRoot();
 
-        /*adapter = new AdapterDigitalNewspapers(
+        data = new ArrayList<>();
+
+        adapter = new AdapterDigitalNewspapers(
                 getContext(),
                 R.layout.gv_newspapers_logo,
                 data
         );
 
-        gridView.setAdapter(adapter);*/
+        binding.gvNewspapers.setAdapter(adapter);
 
         return view;
     }
 
-    private void callAPI(){
-        URL newsApiSourcesUrl = NetworkUtils.buildSourcesUrl();
-        new GetSourcesTask().execute(newsApiSourcesUrl);
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        GetSourcesTask task = new GetSourcesTask();
+        task.execute();
     }
 
 
-    public class GetSourcesTask extends AsyncTask<Void, Void, Void>{
+    public class GetSourcesTask extends AsyncTask<Void, Void, ArrayList<DigitalNewspapers>>{
 
         @Override
-        protected String doInBackground(URL... urls) {
-            String newsSources=null;
+        protected ArrayList<DigitalNewspapers> doInBackground(Void... voids) {
+
             APInews api = new APInews();
+            ArrayList<DigitalNewspapers> digitalNewspapers = api.getDigitalNewsSources();
 
-            newsSources = api.getDigitalNewsSources();
-            System.out.println("\n************\n" + newsSources + "\n************\n" );
-
-            return null;
+            return digitalNewspapers;
         }
 
+        @Override
+        protected void onPostExecute(ArrayList<DigitalNewspapers> newspapers) {
+            super.onPostExecute(newspapers);
+            adapter.clear();
+
+            for (DigitalNewspapers dn : newspapers) {
+                Log.w("AsyncTask", "\nURL Logos: " +  dn.getUrlToLogos() + "\nName: " + dn.getName() + "\n\n");
+                adapter.add(dn);
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.example.a47276138y.newsapp.utilities;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.a47276138y.newsapp.DigitalNewspapers;
 
@@ -27,7 +28,7 @@ public class APInews {
      * This method calls to the API news in order to get all the data of all digital newspapers sources available.
      * @return data' news sources in json format.
      */
-    public String getDigitalNewsSources(){
+    public ArrayList<DigitalNewspapers> getDigitalNewsSources(){
 
         Uri builtUri = Uri.parse(NEWSAPI_SOURCES_URL).buildUpon()
                 .build();
@@ -53,11 +54,11 @@ public class APInews {
      * @return json response from API.
      */
     @Nullable
-    private String doCall(URL url){
+    private ArrayList<DigitalNewspapers> doCall(URL url){
 
         try {
             String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
-            return jsonResponse;
+            return convertJson(jsonResponse);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -84,12 +85,16 @@ public class APInews {
                 JSONObject jsonDigitalNewspaper = jsonDigitalNewspapers.getJSONObject(i);
 
                     DigitalNewspapers dn = new DigitalNewspapers();
+
                     dn.setName(jsonDigitalNewspaper.getString("name"));
-                    dn.setUrlToLogos(jsonDigitalNewspaper.getJSONObject("urlsToLogos").getString("medium"));
 
-                    sources.add(dn);
+                if(jsonDigitalNewspaper.has("urlsToLogos")){
+                    dn.setUrlToLogos(jsonDigitalNewspaper.getJSONObject("urlsToLogos").getString("small"));
+                    Log.w("API Class", jsonDigitalNewspaper.getJSONObject("urlsToLogos").getString("small").toString());
+                }
+
+                sources.add(dn);
             }
-
 
         } catch (JSONException e) {
             e.printStackTrace();
