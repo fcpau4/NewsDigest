@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen
+        android:title="@string/pref_settings_countries_menu"
+        android:defaultValue="true"
+        android:key="pref_countries">
+
+        <ListPreference
+            android:title="England"
+            android:defaultValue="true"
+            android:key="en"
+            android:summaryOn="Selected"/>
+
+        />
+
+
+    </PreferenceScreen>
+
+</PreferenceScreen>
