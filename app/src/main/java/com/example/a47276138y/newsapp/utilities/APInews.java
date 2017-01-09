@@ -21,18 +21,45 @@ import java.util.ArrayList;
 
 public class APInews {
 
-    final static private String NEWSAPI_SOURCES_URL = "https://newsapi.org/v1/sources";
+    final static private String BASE_NEWSAPI_SOURCES_URL = "https://newsapi.org/v1/sources";
 
 
     /**
      * This method calls to the API news in order to get all the data of all digital newspapers sources available.
-     * @return data' news sources in json format.
+     * @return data's news sources in json format.
      */
     public ArrayList<DigitalNewspapers> getDigitalNewsSources(){
 
-        Uri builtUri = Uri.parse(NEWSAPI_SOURCES_URL).buildUpon()
+        Uri builtUri = Uri.parse(BASE_NEWSAPI_SOURCES_URL).buildUpon()
                 .build();
 
+        URL url = null;
+
+        try {
+            url = new URL(builtUri.toString());
+            return doCall(url);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+    /**
+     * This method calls to the API news in order to get all digital newspapers sources available filtered
+     * by the country passed by parameter.
+     * @param country
+     * @return data's sources filtered by country
+     */
+    public ArrayList<DigitalNewspapers> getDigitalNewsSourcesByCountry(String country){
+        Uri builtUri = Uri.parse(BASE_NEWSAPI_SOURCES_URL)
+                .buildUpon()
+                .appendQueryParameter("country", country)
+                .build();
         URL url = null;
 
         try {

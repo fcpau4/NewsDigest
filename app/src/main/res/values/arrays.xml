@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="pref_country_option_labels">
+        <item>@string/pref_country_label_gb</item>
+        <item>@string/pref_country_label_au</item>
+        <item>@string/pref_country_label_ge</item>
+        <item>@string/pref_country_label_in</item>
+        <item>@string/pref_country_label_it</item>
+        <item>@string/pref_country_label_us</item>
+    </array>
+
+    <array name="pref_country_option_values">
+        <item>@string/pref_country_gb_value</item>
+        <item>@string/pref_country_au_value</item>
+        <item>@string/pref_country_de_value</item>
+        <item>@string/pref_country_in_value</item>
+        <item>@string/pref_country_it_value</item>
+        <item>@string/pref_country_us_value</item>
+    </array>
+</resources>

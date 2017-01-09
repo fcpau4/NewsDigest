@@ -1,9 +1,11 @@
 package com.example.a47276138y.newsapp;
 
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,7 +68,11 @@ public class MainActivityFragment extends Fragment {
         protected ArrayList<DigitalNewspapers> doInBackground(Void... voids) {
 
             APInews api = new APInews();
-            ArrayList<DigitalNewspapers> digitalNewspapers = api.getDigitalNewsSources();
+            ArrayList<DigitalNewspapers> digitalNewspapers = null;
+
+
+            digitalNewspapers = api.getDigitalNewsSources();
+
 
             return digitalNewspapers;
         }
