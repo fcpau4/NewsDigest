@@ -1,9 +1,11 @@
 package com.example.a47276138y.newsapp;
 
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,8 +67,20 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected ArrayList<DigitalNewspapers> doInBackground(Void... voids) {
 
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            String country = sharedPreferences.getString("countries_list", "-1");
+
+
             APInews api = new APInews();
-            ArrayList<DigitalNewspapers> digitalNewspapers = api.getDigitalNewsSources();
+            ArrayList<DigitalNewspapers> digitalNewspapers = null;
+
+            if(!(country.equals("-1"))){
+                digitalNewspapers = api.getDigitalNewsSourcesByCountry(country);
+            }
+
+            if(digitalNewspapers==null)
+                digitalNewspapers = api.getDigitalNewsSources();
+
 
             return digitalNewspapers;
         }
