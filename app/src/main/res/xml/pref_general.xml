@@ -30,4 +30,13 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_add_friends_to_messages" />
 
+
+    <!-- List preference of countries-->
+    <ListPreference
+        android:defaultValue="-1"
+        android:entries="@array/pref_country_list_labels"
+        android:entryValues="@array/pref_country_list_values"
+        android:key="countries_list"
+        android:title="@string/pref_country_label" />
+
 </PreferenceScreen>

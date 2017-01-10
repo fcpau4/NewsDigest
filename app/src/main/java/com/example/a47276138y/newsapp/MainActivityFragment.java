@@ -67,11 +67,19 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected ArrayList<DigitalNewspapers> doInBackground(Void... voids) {
 
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            String country = sharedPreferences.getString("countries_list", "-1");
+
+
             APInews api = new APInews();
             ArrayList<DigitalNewspapers> digitalNewspapers = null;
 
+            if(!(country.equals("-1"))){
+                digitalNewspapers = api.getDigitalNewsSourcesByCountry(country);
+            }
 
-            digitalNewspapers = api.getDigitalNewsSources();
+            if(digitalNewspapers==null)
+                digitalNewspapers = api.getDigitalNewsSources();
 
 
             return digitalNewspapers;

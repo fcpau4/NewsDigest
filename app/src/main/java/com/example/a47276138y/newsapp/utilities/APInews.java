@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.a47276138y.newsapp.DigitalNewspapers;
 
+import org.antlr.v4.codegen.SourceGenTriggers;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,8 +63,11 @@ public class APInews {
                 .build();
         URL url = null;
 
+
         try {
             url = new URL(builtUri.toString());
+
+            System.out.println("********************" + url.toString());
             return doCall(url);
 
         } catch (MalformedURLException e) {

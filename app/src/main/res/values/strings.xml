@@ -74,4 +74,30 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
 
+
+
+    <!-- Title's countries list-->
+    <string name="pref_country_label">Countries</string>
+
+    <!-- Label's list of countries preferences -->
+    <string-array name="pref_country_list_labels">
+        <item>United Kingdom</item>
+        <item>Australia</item>
+        <item>Germany</item>
+        <item>Italy</item>
+        <item>India</item>
+        <item>United States</item>
+    </string-array>
+
+
+    <!-- Values' list of countries preferences -->
+    <string-array name="pref_country_list_values">
+        <item>gb</item>
+        <item>au</item>
+        <item>de</item>
+        <item>it</item>
+        <item>in</item>
+        <item>us</item>
+    </string-array>
+
 </resources>
