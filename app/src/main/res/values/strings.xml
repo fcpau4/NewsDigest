@@ -75,7 +75,6 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
 
-
     <!-- Title's countries list-->
     <string name="pref_country_label">Countries</string>
 
@@ -99,5 +98,6 @@
         <item>in</item>
         <item>us</item>
     </string-array>
+    <string name="title_activity_news">NewsActivity</string>
 
 </resources>
