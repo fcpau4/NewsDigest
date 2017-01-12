@@ -67,7 +67,6 @@ public class APInews {
         try {
             url = new URL(builtUri.toString());
 
-            System.out.println("********************" + url.toString());
             return doCall(url);
 
         } catch (MalformedURLException e) {
