@@ -6,7 +6,7 @@
     <string name="tv_pof_row_title">The main headline of the piece of news</string>
 
     <!-- Text for author's TextView in lv_piece_of_news_row.xml-->
-    <string name="tv_pof_row_author">Author's name</string>
+    <string name="tv_pof_row_author">Author\'s name</string>
 
     <!-- Strings related to Settings -->
 
