@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.a47276138y.newsapp.DigitalNewspapers;
+import com.example.a47276138y.newsapp.PieceOfNews;
+import com.example.a47276138y.newsapp.R;
 
 import org.antlr.v4.codegen.SourceGenTriggers;
 import org.json.JSONArray;
@@ -22,7 +24,107 @@ import java.util.ArrayList;
 
 public class APInews {
 
-    final static private String BASE_NEWSAPI_SOURCES_URL = "https://newsapi.org/v1/sources";
+    /**
+     * This properties have the path to API to search for SOURCES/ARTICLES including
+     * the parameters used to do that.
+     */
+    final String BASE_NEWSAPI_SOURCES_EP = "https://newsapi.org/v1/sources";
+    final String COUNTRY_SOU_PAR = "country";
+
+    final String BASE_NEWSAPI_ARTICLES_EP = "https://newsapi.org/v1/articles";
+    final String SOURCE_ART_PAR = "source";
+    final String APIKEY_ART_PAR = "apiKey";
+    final int APIKEY_VALUE = R.string.api_key;
+    final String SORTBY_ART_PAR = "sortBy";
+
+
+    public ArrayList<PieceOfNews> getPON(String source, String sortBy) {
+
+        Uri builtUri = Uri.parse(BASE_NEWSAPI_ARTICLES_EP).buildUpon()
+                .appendQueryParameter(SOURCE_ART_PAR, source)
+                .appendQueryParameter(SORTBY_ART_PAR, sortBy)
+                .appendQueryParameter(APIKEY_ART_PAR, String.valueOf(APIKEY_VALUE))
+                .build();
+
+        URL url = null;
+
+        try {
+            url = new URL(builtUri.toString());
+            return doCallForPON(url);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * It does call to API News and gets raw json of all pieces of news from a source.
+     * @param url
+     * @return json response from API.
+     */
+    @Nullable
+    private ArrayList<PieceOfNews> doCallForPON(URL url){
+
+        try {
+            String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
+            return convertPONJson(jsonResponse);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * This method gets pieces of news' data from a raw json and fill PON's objects with this data.
+     * @param jsonNews
+     * @return ArrayList<PieceOfNews>
+     */
+    public ArrayList<PieceOfNews> convertPONJson(String jsonNews){
+
+        ArrayList<PieceOfNews> allPon = new ArrayList<>();
+
+        try {
+            JSONObject data = new JSONObject(jsonNews);
+            JSONArray jsonAllNews = data.getJSONArray("articles");
+
+
+            for (int i = 0; i < jsonAllNews.length(); i++) {
+
+                JSONObject jsonPieceOfNews = jsonAllNews.getJSONObject(i);
+
+                PieceOfNews pon = new PieceOfNews();
+
+                pon.setAuthor(jsonPieceOfNews.getString("author"));
+                pon.setTitle(jsonPieceOfNews.getString("title"));
+                pon.setUrlToExtendedPOF(jsonPieceOfNews.getString("url"));
+
+                if(jsonPieceOfNews.has("urlToImage")){
+                    pon.setUrlToImage(jsonPieceOfNews.getString("urlToImage"));
+                }
+
+                allPon.add(pon);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return allPon;
+
+    }
+
+
+
+
+
+
+    /*************** DOWN HERE API Methods For Getting Digital Newspapers info **************************/
+
 
 
     /**
@@ -31,7 +133,7 @@ public class APInews {
      */
     public ArrayList<DigitalNewspapers> getDigitalNewsSources(){
 
-        Uri builtUri = Uri.parse(BASE_NEWSAPI_SOURCES_URL).buildUpon()
+        Uri builtUri = Uri.parse(BASE_NEWSAPI_SOURCES_EP).buildUpon()
                 .build();
 
         URL url = null;
@@ -57,9 +159,9 @@ public class APInews {
      * @return data's sources filtered by country
      */
     public ArrayList<DigitalNewspapers> getDigitalNewsSourcesByCountry(String country){
-        Uri builtUri = Uri.parse(BASE_NEWSAPI_SOURCES_URL)
+        Uri builtUri = Uri.parse(BASE_NEWSAPI_SOURCES_EP)
                 .buildUpon()
-                .appendQueryParameter("country", country)
+                .appendQueryParameter(COUNTRY_SOU_PAR, country)
                 .build();
         URL url = null;
 
