@@ -1,5 +1,6 @@
 package com.example.a47276138y.newsapp.utilities;
 
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -13,6 +14,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -34,7 +39,7 @@ public class APInews {
     final String BASE_NEWSAPI_ARTICLES_EP = "https://newsapi.org/v1/articles";
     final String SOURCE_ART_PAR = "source";
     final String APIKEY_ART_PAR = "apiKey";
-    final int APIKEY_VALUE = R.string.api_key;
+    final String APIKEY_VALUE = String.valueOf(R.string.api_key);
     final String SORTBY_ART_PAR = "sortBy";
 
 
@@ -43,9 +48,10 @@ public class APInews {
         Uri builtUri = Uri.parse(BASE_NEWSAPI_ARTICLES_EP).buildUpon()
                 .appendQueryParameter(SOURCE_ART_PAR, source)
                 .appendQueryParameter(SORTBY_ART_PAR, sortBy)
-                .appendQueryParameter(APIKEY_ART_PAR, String.valueOf(APIKEY_VALUE))
+                .appendQueryParameter(APIKEY_ART_PAR, APIKEY_VALUE)
                 .build();
 
+        Log.w("HAS BUILT URI", builtUri.toString());
         URL url = null;
 
         try {
@@ -115,6 +121,21 @@ public class APInews {
         }
 
         return allPon;
+
+    }
+
+    private String readFile(){
+
+        String line = "";
+        File f = new File(String.valueOf(getClass().getResource("/app/values/keys.xml")));
+        BufferedReader br = null;
+
+        try {
+            br = new BufferedReader(new FileReader(f));
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
