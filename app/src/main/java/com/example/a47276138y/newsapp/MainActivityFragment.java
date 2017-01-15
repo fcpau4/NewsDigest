@@ -1,5 +1,6 @@
 package com.example.a47276138y.newsapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.a47276138y.newsapp.databinding.FragmentMainBinding;
@@ -49,6 +51,19 @@ public class MainActivityFragment extends Fragment {
         );
 
         binding.gvNewspapers.setAdapter(adapter);
+
+        binding.gvNewspapers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                DigitalNewspapers digitalNewspaper = (DigitalNewspapers) adapterView.getItemAtPosition(position);
+
+                Intent intent = new Intent(getContext(), NewsActivity.class);
+                intent.putExtra("digitalNewspaper", digitalNewspaper);
+
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

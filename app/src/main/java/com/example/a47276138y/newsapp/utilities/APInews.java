@@ -206,6 +206,7 @@ public class APInews {
     public ArrayList<DigitalNewspapers> convertJson(String jsonSources){
 
         ArrayList<DigitalNewspapers> sources = new ArrayList<>();
+        ArrayList<String> sortBysOptions = null;
 
         try {
             JSONObject data = new JSONObject(jsonSources);
@@ -218,12 +219,23 @@ public class APInews {
 
                     DigitalNewspapers dn = new DigitalNewspapers();
 
+                    dn.setId(jsonDigitalNewspaper.getString("id"));
+
                     dn.setName(jsonDigitalNewspaper.getString("name"));
 
                 if(jsonDigitalNewspaper.has("urlsToLogos")){
                     dn.setUrlToLogos(jsonDigitalNewspaper.getJSONObject("urlsToLogos").getString("small"));
                     Log.w("API Class", jsonDigitalNewspaper.getJSONObject("urlsToLogos").getString("small").toString());
                 }
+
+                JSONArray jsonArraySortBys = jsonDigitalNewspaper.getJSONArray("sortBysAvailable");
+                sortBysOptions = new ArrayList<>();
+
+                for (int j = 0; j <jsonArraySortBys.length() ; j++) {
+                    sortBysOptions.add(jsonArraySortBys.getString(j));
+                }
+
+                dn.setSortBysAvailable(sortBysOptions);
 
                 sources.add(dn);
             }
