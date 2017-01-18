@@ -4,7 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/bg_pon">
 
         <ImageView
             android:id="@+id/img_news_row"
@@ -15,7 +16,8 @@
             android:layout_height="310dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline2"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            android:background="@android:color/darker_gray"/>
 
         <TextView
             android:layout_width="0dp"
@@ -23,6 +25,9 @@
             android:id="@+id/tv_pof_title"
             android:text="@string/tv_pof_row_title"
             android:textSize="30dp"
+            android:textAlignment="center"
+            android:textStyle="normal"
+
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -30,23 +35,25 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp" />
+            android:layout_marginRight="8dp"
+            android:fontFamily="sans-serif"
+            tools:typeface="sans" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tv_pof_author"
             android:text="@string/tv_pof_row_author"
-            android:textSize="10dp"
+            android:textSize="14dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintTop_toBottomOf="@+id/tv_pof_title"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp" />
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="10dp" />
 
         <android.support.constraint.Guideline
             android:layout_width="0dp"

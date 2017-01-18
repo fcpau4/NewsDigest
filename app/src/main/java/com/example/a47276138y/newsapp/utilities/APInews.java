@@ -1,5 +1,6 @@
 package com.example.a47276138y.newsapp.utilities;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.annotation.Nullable;
@@ -39,16 +40,15 @@ public class APInews {
     final String BASE_NEWSAPI_ARTICLES_EP = "https://newsapi.org/v1/articles";
     final String SOURCE_ART_PAR = "source";
     final String APIKEY_ART_PAR = "apiKey";
-    final String APIKEY_VALUE = String.valueOf(R.string.api_key);
     final String SORTBY_ART_PAR = "sortBy";
 
 
-    public ArrayList<PieceOfNews> getPON(String source, String sortBy) {
+    public ArrayList<PieceOfNews> getPON(String source, String sortBy, Context context) {
 
         Uri builtUri = Uri.parse(BASE_NEWSAPI_ARTICLES_EP).buildUpon()
                 .appendQueryParameter(SOURCE_ART_PAR, source)
                 .appendQueryParameter(SORTBY_ART_PAR, sortBy)
-                .appendQueryParameter(APIKEY_ART_PAR, APIKEY_VALUE)
+                .appendQueryParameter(APIKEY_ART_PAR, context.getResources().getString(R.string.api_key))
                 .build();
 
         Log.w("HAS BUILT URI", builtUri.toString());
@@ -105,7 +105,9 @@ public class APInews {
 
                 PieceOfNews pon = new PieceOfNews();
 
-                pon.setAuthor(jsonPieceOfNews.getString("author"));
+                if(jsonPieceOfNews.has("author")){
+                    pon.setAuthor(jsonPieceOfNews.getString("author"));
+                }
                 pon.setTitle(jsonPieceOfNews.getString("title"));
                 pon.setUrlToExtendedPOF(jsonPieceOfNews.getString("url"));
 
@@ -121,21 +123,6 @@ public class APInews {
         }
 
         return allPon;
-
-    }
-
-    private String readFile(){
-
-        String line = "";
-        File f = new File(String.valueOf(getClass().getResource("/app/values/keys.xml")));
-        BufferedReader br = null;
-
-        try {
-            br = new BufferedReader(new FileReader(f));
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
     }
 
