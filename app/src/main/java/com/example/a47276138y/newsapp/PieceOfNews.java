@@ -23,4 +23,10 @@ public class PieceOfNews {
     public void setTitle(String title) {
         this.title = title;
     }
+
+
+    @Override
+    public String toString() {
+        return "\n\t\t" + getTitle() + "\n\t\t" + getAuthor() + "\n\t\t" + getUrlToImage();
+    }
 }
