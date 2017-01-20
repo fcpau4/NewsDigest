@@ -34,16 +34,16 @@ public class APInews {
      * This properties have the path to API to search for SOURCES/ARTICLES including
      * the parameters used to do that.
      */
-    final String BASE_NEWSAPI_SOURCES_EP = "https://newsapi.org/v1/sources";
-    final String COUNTRY_SOU_PAR = "country";
+    public final static String BASE_NEWSAPI_SOURCES_EP = "https://newsapi.org/v1/sources";
+    public final static String COUNTRY_SOU_PAR = "country";
 
-    final String BASE_NEWSAPI_ARTICLES_EP = "https://newsapi.org/v1/articles";
-    final String SOURCE_ART_PAR = "source";
-    final String APIKEY_ART_PAR = "apiKey";
-    final String SORTBY_ART_PAR = "sortBy";
+    public final static String BASE_NEWSAPI_ARTICLES_EP = "https://newsapi.org/v1/articles";
+    public final static String SOURCE_ART_PAR = "source";
+    public final static String APIKEY_ART_PAR = "apiKey";
+    public final static String SORTBY_ART_PAR = "sortBy";
 
 
-    public ArrayList<PieceOfNews> getPON(String source, String sortBy, Context context) {
+    public static ArrayList<PieceOfNews> getPON(String source, String sortBy, Context context) {
 
         Uri builtUri = Uri.parse(BASE_NEWSAPI_ARTICLES_EP).buildUpon()
                 .appendQueryParameter(SOURCE_ART_PAR, source)
@@ -73,7 +73,7 @@ public class APInews {
      * @return json response from API.
      */
     @Nullable
-    private ArrayList<PieceOfNews> doCallForPON(URL url){
+    public static ArrayList<PieceOfNews> doCallForPON(URL url){
 
         try {
             String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
@@ -90,7 +90,7 @@ public class APInews {
      * @param jsonNews
      * @return ArrayList<PieceOfNews>
      */
-    public ArrayList<PieceOfNews> convertPONJson(String jsonNews){
+    public static ArrayList<PieceOfNews> convertPONJson(String jsonNews){
 
         ArrayList<PieceOfNews> allPon = new ArrayList<>();
 
@@ -139,7 +139,7 @@ public class APInews {
      * This method calls to the API news in order to get all the data of all digital newspapers sources available.
      * @return data's news sources in json format.
      */
-    public ArrayList<DigitalNewspapers> getDigitalNewsSources(){
+    public static ArrayList<DigitalNewspapers> getDigitalNewsSources(){
 
         Uri builtUri = Uri.parse(BASE_NEWSAPI_SOURCES_EP).buildUpon()
                 .build();
@@ -166,7 +166,7 @@ public class APInews {
      * @param country
      * @return data's sources filtered by country
      */
-    public ArrayList<DigitalNewspapers> getDigitalNewsSourcesByCountry(String country){
+    public static ArrayList<DigitalNewspapers> getDigitalNewsSourcesByCountry(String country){
         Uri builtUri = Uri.parse(BASE_NEWSAPI_SOURCES_EP)
                 .buildUpon()
                 .appendQueryParameter(COUNTRY_SOU_PAR, country)
@@ -194,7 +194,7 @@ public class APInews {
      * @return json response from API.
      */
     @Nullable
-    private ArrayList<DigitalNewspapers> doCall(URL url){
+    public static ArrayList<DigitalNewspapers> doCall(URL url){
 
         try {
             String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
@@ -211,7 +211,7 @@ public class APInews {
      * @param jsonSources
      * @return ArrayList<DigitalNewspapers>
      */
-    public ArrayList<DigitalNewspapers> convertJson(String jsonSources){
+    public static ArrayList<DigitalNewspapers> convertJson(String jsonSources){
 
         ArrayList<DigitalNewspapers> sources = new ArrayList<>();
         ArrayList<String> sortBysOptions = null;
@@ -255,6 +255,5 @@ public class APInews {
         return sources;
 
     }
-
 
 }

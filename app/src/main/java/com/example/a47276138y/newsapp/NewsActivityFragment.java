@@ -2,10 +2,10 @@ package com.example.a47276138y.newsapp;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +15,10 @@ import com.example.a47276138y.newsapp.databinding.FragmentNewsBinding;
 import com.example.a47276138y.newsapp.utilities.APInews;
 
 import java.util.ArrayList;
+
+import nl.littlerobots.cupboard.tools.provider.UriHelper;
+
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -58,13 +62,11 @@ public class NewsActivityFragment extends Fragment {
         task.execute();
     }
 
-    public class GetNewsTask extends AsyncTask<Void, Void, ArrayList<PieceOfNews>>{
+    public class GetNewsTask extends AsyncTask<Object, Object, Void> {
 
         @Override
-        protected ArrayList<PieceOfNews> doInBackground(Void... voids) {
+        protected Void doInBackground(Object... voids) {
 
-
-            APInews api = new APInews();
             ArrayList<PieceOfNews> piecesOfNews = null;
 
             String id = "";
@@ -88,12 +90,16 @@ public class NewsActivityFragment extends Fragment {
             }
 
 
-            piecesOfNews = api.getPON(id, sortByOption, getContext());
+            piecesOfNews = APInews.getPON(id, sortByOption, getContext());
 
-            return piecesOfNews;
+            UriHelper uriHelper = UriHelper.with(NewsAppContentProvider.AUTHORITY);
+            Uri ponUri = uriHelper.getUri(PieceOfNews.class);
+            cupboard().withContext(getContext()).put(ponUri, PieceOfNews.class, piecesOfNews);
+
+            return null;
         }
 
-        @Override
+        /*@Override
         protected void onPostExecute(ArrayList<PieceOfNews> piecesOfNews) {
 
             super.onPostExecute(piecesOfNews);
@@ -102,8 +108,8 @@ public class NewsActivityFragment extends Fragment {
             for (PieceOfNews v : piecesOfNews) {
                 adapter.add(v);
                 Log.w("XXXXXX", v.toString());
-            }
+            }*/
 
         }
     }
-}
+

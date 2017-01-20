@@ -3,6 +3,7 @@ package com.example.a47276138y.newsapp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -12,15 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
-
 import com.example.a47276138y.newsapp.databinding.FragmentMainBinding;
 import com.example.a47276138y.newsapp.utilities.APInews;
-import com.example.a47276138y.newsapp.utilities.NetworkUtils;
-
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
+
+import nl.littlerobots.cupboard.tools.provider.UriHelper;
+
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -77,30 +76,33 @@ public class MainActivityFragment extends Fragment {
     }
 
 
-    public class GetSourcesTask extends AsyncTask<Void, Void, ArrayList<DigitalNewspapers>>{
+    public class GetSourcesTask extends AsyncTask<Void, Void, Void>{
 
         @Override
-        protected ArrayList<DigitalNewspapers> doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
 
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             String country = sharedPreferences.getString("countries_list", "-1");
 
 
-            APInews api = new APInews();
-            ArrayList<DigitalNewspapers> digitalNewspapers = null;
+            
+            ArrayList<DigitalNewspapers> digitalNewspapers;
 
             if(!(country.equals("-1"))){
-                digitalNewspapers = api.getDigitalNewsSourcesByCountry(country);
+                digitalNewspapers = APInews.getDigitalNewsSourcesByCountry(country);
+            }else{
+                digitalNewspapers = APInews.getDigitalNewsSources();
             }
 
-            if(digitalNewspapers==null)
-                digitalNewspapers = api.getDigitalNewsSources();
+            UriHelper helper = UriHelper.with(NewsAppContentProvider.AUTHORITY);
+            Uri newspaperUri = helper.getUri(DigitalNewspapers.class);
+            //inserting newspapers into database
+            cupboard().withContext(getContext()).put(newspaperUri, DigitalNewspapers.class, digitalNewspapers);
 
-
-            return digitalNewspapers;
+            return null;
         }
 
-        @Override
+        /*@Override
         protected void onPostExecute(ArrayList<DigitalNewspapers> newspapers) {
             super.onPostExecute(newspapers);
             adapter.clear();
@@ -109,6 +111,6 @@ public class MainActivityFragment extends Fragment {
                 Log.w("AsyncTask", "\nURL Logos: " +  dn.getUrlToLogos() + "\nName: " + dn.getName() + "\n\n");
                 adapter.add(dn);
             }
-        }
+        }*/
     }
 }
