@@ -92,9 +92,7 @@ public class NewsActivityFragment extends Fragment {
 
             piecesOfNews = APInews.getPON(id, sortByOption, getContext());
 
-            UriHelper uriHelper = UriHelper.with(NewsAppContentProvider.AUTHORITY);
-            Uri ponUri = uriHelper.getUri(PieceOfNews.class);
-            cupboard().withContext(getContext()).put(ponUri, PieceOfNews.class, piecesOfNews);
+            DataManager.savePiecesOfNews(piecesOfNews, getContext());
 
             return null;
         }

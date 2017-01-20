@@ -94,10 +94,7 @@ public class MainActivityFragment extends Fragment {
                 digitalNewspapers = APInews.getDigitalNewsSources();
             }
 
-            UriHelper helper = UriHelper.with(NewsAppContentProvider.AUTHORITY);
-            Uri newspaperUri = helper.getUri(DigitalNewspapers.class);
-            //inserting newspapers into database
-            cupboard().withContext(getContext()).put(newspaperUri, DigitalNewspapers.class, digitalNewspapers);
+            DataManager.saveDigitalNewspapers(digitalNewspapers, getContext());
 
             return null;
         }
