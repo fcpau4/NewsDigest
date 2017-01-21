@@ -26,7 +26,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 public class NewsActivityFragment extends Fragment {
 
     private ArrayList<PieceOfNews> data;
-    private AdapterPiecesOfNews adapter;
+    private PONCursorAdapter adapter;
 
     public NewsActivityFragment() {
     }
@@ -41,12 +41,13 @@ public class NewsActivityFragment extends Fragment {
 
         data = new ArrayList<>();
 
-        adapter = new AdapterPiecesOfNews(
+        /*adapter = new AdapterPiecesOfNews(
                 getContext(),
                 R.layout.lv_piece_of_news_row,
                 data
-        );
+        );*/
 
+        adapter = new PONCursorAdapter(getContext(), PieceOfNews.class);
         binding.lvNews.setAdapter(adapter);
 
 

@@ -27,7 +27,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 public class MainActivityFragment extends Fragment {
 
 
-    private AdapterDigitalNewspapers adapter;
+    private DNCursorAdapter adapter;
     private ArrayList<DigitalNewspapers> data;
 
     public MainActivityFragment() {
@@ -43,11 +43,12 @@ public class MainActivityFragment extends Fragment {
 
         data = new ArrayList<>();
 
-        adapter = new AdapterDigitalNewspapers(
+        /*adapter = new AdapterDigitalNewspapers(
                 getContext(),
                 R.layout.gv_newspapers_logo,
                 data
-        );
+        );*/
+        adapter = new DNCursorAdapter(getContext(), DigitalNewspapers.class);
 
         binding.gvNewspapers.setAdapter(adapter);
 
