@@ -27,4 +27,14 @@ public class DataManager {
         cupboard().withContext(context).put(PON_URI, PieceOfNews.class, piecesOfNews);
     }
 
+    static void deleteDigitalNewspapers (Context context){
+        cupboard().withContext(context).delete(NEWSPAPERS_URI, "_id > ?", "0");
+    }
+
+
+    static void deletePiecesOfNews(Context context){
+        cupboard().withContext(context).delete(PON_URI, "_id > ?", "0");
+    }
+
+
 }

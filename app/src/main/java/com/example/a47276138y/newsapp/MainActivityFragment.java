@@ -94,6 +94,7 @@ public class MainActivityFragment extends Fragment {
                 digitalNewspapers = APInews.getDigitalNewsSources();
             }
 
+            DataManager.deleteDigitalNewspapers(getContext());
             DataManager.saveDigitalNewspapers(digitalNewspapers, getContext());
 
             return null;

@@ -92,6 +92,7 @@ public class NewsActivityFragment extends Fragment {
 
             piecesOfNews = APInews.getPON(id, sortByOption, getContext());
 
+            DataManager.deletePiecesOfNews(getContext());
             DataManager.savePiecesOfNews(piecesOfNews, getContext());
 
             return null;
