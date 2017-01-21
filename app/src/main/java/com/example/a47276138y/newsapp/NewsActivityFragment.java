@@ -1,11 +1,15 @@
 package com.example.a47276138y.newsapp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +27,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class NewsActivityFragment extends Fragment {
+public class NewsActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private ArrayList<PieceOfNews> data;
     private PONCursorAdapter adapter;
@@ -50,7 +54,6 @@ public class NewsActivityFragment extends Fragment {
         adapter = new PONCursorAdapter(getContext(), PieceOfNews.class);
         binding.lvNews.setAdapter(adapter);
 
-
         return view;
     }
 
@@ -61,6 +64,21 @@ public class NewsActivityFragment extends Fragment {
         GetNewsTask task = new GetNewsTask();
         Log.w("KKKKKKKKKKK", task.toString());
         task.execute();
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return DataManager.getPONCursorLoader(getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
     }
 
     public class GetNewsTask extends AsyncTask<Object, Object, Void> {

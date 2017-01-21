@@ -1,14 +1,16 @@
 package com.example.a47276138y.newsapp;
 
+import android.support.v4.content.CursorLoader;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +19,10 @@ import com.example.a47276138y.newsapp.databinding.FragmentMainBinding;
 import com.example.a47276138y.newsapp.utilities.APInews;
 import java.util.ArrayList;
 
-import nl.littlerobots.cupboard.tools.provider.UriHelper;
-
-import static nl.qbusict.cupboard.CupboardFactory.cupboard;
-
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
     private DNCursorAdapter adapter;
@@ -65,6 +63,9 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
+
+        getLoaderManager().initLoader(0, null, this);
+
         return view;
     }
 
@@ -74,6 +75,21 @@ public class MainActivityFragment extends Fragment {
         super.onStart();
         GetSourcesTask task = new GetSourcesTask();
         task.execute();
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return DataManager.getDNCursorLoader(getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
     }
 
 

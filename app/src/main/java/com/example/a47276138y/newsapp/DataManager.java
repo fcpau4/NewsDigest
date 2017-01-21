@@ -1,8 +1,8 @@
 package com.example.a47276138y.newsapp;
 
 import android.content.Context;
-import android.content.CursorLoader;
 import android.net.Uri;
+import android.support.v4.content.CursorLoader;
 
 import java.util.ArrayList;
 
@@ -32,15 +32,16 @@ public class DataManager {
         cupboard().withContext(context).delete(NEWSPAPERS_URI, "_id > ?", "0");
     }
 
-    static CursorLoader getDNLoader(Context context){
-        return new CursorLoader(context, NEWSPAPERS_URI, null, null, null, null);
-    }
-
     static void deletePiecesOfNews(Context context){
         cupboard().withContext(context).delete(PON_URI, "_id > ?", "0");
     }
 
-    static CursorLoader getPONLoader(Context context){
+
+    static CursorLoader getDNCursorLoader(Context context){
+        return new CursorLoader(context, NEWSPAPERS_URI, null, null, null, null);
+    }
+
+    static CursorLoader getPONCursorLoader(Context context){
         return new CursorLoader(context, PON_URI, null, null, null, null);
     }
 
