@@ -179,6 +179,7 @@ public class APInews {
 
             return doCall(url);
 
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -233,7 +234,6 @@ public class APInews {
 
                 if(jsonDigitalNewspaper.has("urlsToLogos")){
                     dn.setUrlToLogos(jsonDigitalNewspaper.getJSONObject("urlsToLogos").getString("small"));
-                    Log.w("API Class", jsonDigitalNewspaper.getJSONObject("urlsToLogos").getString("small").toString());
                 }
 
                 JSONArray jsonArraySortBys = jsonDigitalNewspaper.getJSONArray("sortBysAvailable");

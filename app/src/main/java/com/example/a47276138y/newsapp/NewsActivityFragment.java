@@ -54,6 +54,8 @@ public class NewsActivityFragment extends Fragment implements LoaderManager.Load
         adapter = new PONCursorAdapter(getContext(), PieceOfNews.class);
         binding.lvNews.setAdapter(adapter);
 
+        getLoaderManager().initLoader(0, null, this);
+
         return view;
     }
 
@@ -107,7 +109,6 @@ public class NewsActivityFragment extends Fragment implements LoaderManager.Load
                     sortByOption = dn.getSortBysAvailable().get(0);
                 }
             }
-
 
             piecesOfNews = APInews.getPON(id, sortByOption, getContext());
 

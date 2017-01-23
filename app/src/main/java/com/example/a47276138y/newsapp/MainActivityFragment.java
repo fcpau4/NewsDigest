@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
             }
         });
 
-
         getLoaderManager().initLoader(0, null, this);
 
         return view;
@@ -101,13 +101,13 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             String country = sharedPreferences.getString("countries_list", "-1");
 
-
-            
-            ArrayList<DigitalNewspapers> digitalNewspapers;
+            ArrayList<DigitalNewspapers> digitalNewspapers = null;
 
             if(!(country.equals("-1"))){
                 digitalNewspapers = APInews.getDigitalNewsSourcesByCountry(country);
-            }else{
+            }
+
+            if(country.equals(null)){
                 digitalNewspapers = APInews.getDigitalNewsSources();
             }
 
