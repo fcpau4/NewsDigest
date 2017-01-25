@@ -100,13 +100,12 @@ public class NewsActivityFragment extends Fragment implements LoaderManager.Load
 
                 id = dn.getId();
 
-                if (dn.getSortBysAvailable().size() > 1) {
-                    for (int i = 0; i < dn.getSortBysAvailable().size(); i++) {
-                        sortByOption = dn.getSortBysAvailable().get(i);
-                        break;
-                    }
-                } else {
-                    sortByOption = dn.getSortBysAvailable().get(0);
+                if(dn.isLatest()){
+                    sortByOption = "latest";
+                }else if(dn.isTop()){
+                    sortByOption = "top";
+                }else if(dn.isPopular()){
+                    sortByOption = "popular";
                 }
             }
 

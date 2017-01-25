@@ -16,6 +16,11 @@ public class DigitalNewspapers implements Serializable{
     private String category;
     private String urlToLogos;
     private String country;
+
+    private boolean top=false;
+    private boolean latest=false;
+    private boolean popular=false;
+
     private ArrayList<String> sortBysAvailable;
 
     public DigitalNewspapers(){}
@@ -30,8 +35,13 @@ public class DigitalNewspapers implements Serializable{
     public void setUrlToLogos(String urlToLogos) {this.urlToLogos = urlToLogos;}
     public String getCategory() {return category;}
     public void setCategory(String category) {this.category = category;}
-    public ArrayList<String> getSortBysAvailable() {return sortBysAvailable;}
-    public void setSortBysAvailable(ArrayList<String> sortBysAvailable) {this.sortBysAvailable = sortBysAvailable;}
-
+    //public ArrayList<String> getSortBysAvailable() {return sortBysAvailable;}
+    //public void setSortBysAvailable(ArrayList<String> sortBysAvailable) {this.sortBysAvailable = sortBysAvailable;}
+    public boolean isTop() { return top; }
+    public void setTop(boolean top) { this.top = top; }
+    public boolean isLatest() { return latest; }
+    public void setLatest(boolean latest) {this.latest = latest;}
+    public boolean isPopular() {return popular;}
+    public void setPopular(boolean popular) {this.popular = popular;}
 
 }
