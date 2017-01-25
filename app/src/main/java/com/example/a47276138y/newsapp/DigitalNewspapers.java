@@ -21,7 +21,6 @@ public class DigitalNewspapers implements Serializable{
     private boolean latest=false;
     private boolean popular=false;
 
-    private ArrayList<String> sortBysAvailable;
 
     public DigitalNewspapers(){}
 
@@ -35,8 +34,6 @@ public class DigitalNewspapers implements Serializable{
     public void setUrlToLogos(String urlToLogos) {this.urlToLogos = urlToLogos;}
     public String getCategory() {return category;}
     public void setCategory(String category) {this.category = category;}
-    //public ArrayList<String> getSortBysAvailable() {return sortBysAvailable;}
-    //public void setSortBysAvailable(ArrayList<String> sortBysAvailable) {this.sortBysAvailable = sortBysAvailable;}
     public boolean isTop() { return top; }
     public void setTop(boolean top) { this.top = top; }
     public boolean isLatest() { return latest; }

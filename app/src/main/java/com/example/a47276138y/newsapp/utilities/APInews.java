@@ -200,6 +200,7 @@ public class APInews {
         try {
             String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
             return convertJson(jsonResponse);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -238,7 +239,6 @@ public class APInews {
                 JSONArray jsonArraySortBys = jsonDigitalNewspaper.getJSONArray("sortBysAvailable");
 
                 for (int j = 0; j <jsonArraySortBys.length() ; j++) {
-
                     if(jsonArraySortBys.getString(j).equals("top")){
                         dn.setTop(true);
                     }else if(jsonArraySortBys.getString(j).equals("latest")){
