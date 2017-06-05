@@ -30,8 +30,6 @@ public class AdapterPiecesOfNews extends ArrayAdapter<PieceOfNews> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         PieceOfNews pieceOfNews = getItem(position);
-        Log.w("AdapterGetView", "Come in NEWSAdapter" + "\t\t" + pieceOfNews.getTitle() + "\t\t" +
-                pieceOfNews.getTitle() + "\t\t" + pieceOfNews.getUrlToImage() + "\t\t" + pieceOfNews.getUrlToExtendedPOF());
 
         LvPieceOfNewsRowBinding binding = null;
 

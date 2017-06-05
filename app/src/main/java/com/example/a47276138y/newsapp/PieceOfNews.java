@@ -1,10 +1,12 @@
 package com.example.a47276138y.newsapp;
 
+import java.io.Serializable;
+
 /**
  * Created by Arfera on 12/01/2017.
  */
 
-public class PieceOfNews {
+public class PieceOfNews implements Serializable {
 
     private String author;
     private String title;

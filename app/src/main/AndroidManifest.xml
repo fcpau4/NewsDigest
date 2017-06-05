@@ -34,11 +34,11 @@
             android:label="@string/title_activity_news"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.a47276138y.newsapp.MainActivity" />
         </activity>
+        <activity android:name=".WebViewActivity"></activity>
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.example.a47276138y.newsapp;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.example.a47276138y.newsapp.databinding.FragmentNewsBinding;
 import com.example.a47276138y.newsapp.utilities.APInews;
@@ -45,6 +47,13 @@ public class NewsActivityFragment extends Fragment {
 
         binding.lvNews.setAdapter(adapter);
 
+        binding.lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               PieceOfNews pon = (PieceOfNews) parent.getItemAtPosition(position);
+                Log.w("******URL********: ", pon.getUrlToExtendedPOF());
+            }
+        });
 
         return view;
     }
@@ -54,7 +63,6 @@ public class NewsActivityFragment extends Fragment {
     public void onStart() {
         super.onStart();
         GetNewsTask task = new GetNewsTask();
-        Log.w("KKKKKKKKKKK", task.toString());
         task.execute();
     }
 
@@ -100,10 +108,9 @@ public class NewsActivityFragment extends Fragment {
             adapter.clear();
 
             for (PieceOfNews v : piecesOfNews) {
+                v.getUrlToExtendedPOF();
                 adapter.add(v);
-                Log.w("XXXXXX", v.toString());
             }
-
         }
     }
 }
