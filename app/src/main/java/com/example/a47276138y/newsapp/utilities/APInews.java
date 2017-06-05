@@ -10,7 +10,6 @@ import com.example.a47276138y.newsapp.DigitalNewspapers;
 import com.example.a47276138y.newsapp.PieceOfNews;
 import com.example.a47276138y.newsapp.R;
 
-import org.antlr.v4.codegen.SourceGenTriggers;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.example.a47276138y.newsapp"
         minSdkVersion 16
@@ -36,7 +36,7 @@ dependencies {
     compile 'com.android.support:preference-v7:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:support-vector-drawable:24.2.1'
-    testCompile 'junit:junit:4.12'
     compile 'nl.qbusict:cupboard:2.1.4'
     compile 'nl.littlerobots:cupboard-tools:0.2.0'
+    testCompile 'junit:junit:4.12'
 }

@@ -103,6 +103,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
             ArrayList<DigitalNewspapers> digitalNewspapers = null;
 
+            System.out.println("country filter: "+country);
+
             if(!(country.equals("-1"))){
                 digitalNewspapers = APInews.getDigitalNewsSourcesByCountry(country);
             }
@@ -111,8 +113,12 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 digitalNewspapers = APInews.getDigitalNewsSources();
             }
 
-            DataManager.deleteDigitalNewspapers(getContext());
-            DataManager.saveDigitalNewspapers(digitalNewspapers, getContext());
+            if(digitalNewspapers != null) {
+                DataManager.deleteDigitalNewspapers(getContext());
+                DataManager.saveDigitalNewspapers(digitalNewspapers, getContext());
+            }else{
+                System.out.println("No Sources / Data available through Internet");
+            }
 
             return null;
         }

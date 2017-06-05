@@ -31,6 +31,6 @@ public class DNCursorAdapter extends CupboardCursorAdapter<DigitalNewspapers> {
     public void bindView(View view, Context context, DigitalNewspapers model) {
         GvNewspapersLogoBinding binding = DataBindingUtil.getBinding(view);
         binding.gvNewspapersName.setText(model.getName());
-        Glide.with(context).load(model.getUrlToLogos()).into(binding.gvLogoNewspapers);
+        Glide.with(context).load(model.getUrlToLogos()).placeholder(R.drawable.not_found).into(binding.gvLogoNewspapers);
     }
 }
