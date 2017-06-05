@@ -34,11 +34,17 @@
             android:label="@string/title_activity_news"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.a47276138y.newsapp.MainActivity" />
         </activity>
+
+        <provider
+            android:name=".NewsAppContentProvider"
+            android:authorities="com.example.a47276138y.newsapp.provider"
+            android:enabled="true"
+            android:exported="false">
+        </provider>
     </application>
 
 </manifest>

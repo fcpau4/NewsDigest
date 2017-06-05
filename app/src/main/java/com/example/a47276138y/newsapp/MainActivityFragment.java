@@ -1,34 +1,32 @@
 package com.example.a47276138y.newsapp;
 
+import android.support.v4.content.CursorLoader;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
-
 import com.example.a47276138y.newsapp.databinding.FragmentMainBinding;
 import com.example.a47276138y.newsapp.utilities.APInews;
-import com.example.a47276138y.newsapp.utilities.NetworkUtils;
-
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
-    private AdapterDigitalNewspapers adapter;
+    private DNCursorAdapter adapter;
     private ArrayList<DigitalNewspapers> data;
 
     public MainActivityFragment() {
@@ -44,11 +42,12 @@ public class MainActivityFragment extends Fragment {
 
         data = new ArrayList<>();
 
-        adapter = new AdapterDigitalNewspapers(
+        /*adapter = new AdapterDigitalNewspapers(
                 getContext(),
                 R.layout.gv_newspapers_logo,
                 data
-        );
+        );*/
+        adapter = new DNCursorAdapter(getContext(), DigitalNewspapers.class);
 
         binding.gvNewspapers.setAdapter(adapter);
 
@@ -65,6 +64,8 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
+        getLoaderManager().initLoader(0, null, this);
+
         return view;
     }
 
@@ -76,31 +77,47 @@ public class MainActivityFragment extends Fragment {
         task.execute();
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return DataManager.getDNCursorLoader(getContext());
+    }
 
-    public class GetSourcesTask extends AsyncTask<Void, Void, ArrayList<DigitalNewspapers>>{
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
+    }
+
+
+    public class GetSourcesTask extends AsyncTask<Void, Void, Void>{
 
         @Override
-        protected ArrayList<DigitalNewspapers> doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
 
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
             String country = sharedPreferences.getString("countries_list", "-1");
 
-
-            APInews api = new APInews();
             ArrayList<DigitalNewspapers> digitalNewspapers = null;
 
             if(!(country.equals("-1"))){
-                digitalNewspapers = api.getDigitalNewsSourcesByCountry(country);
+                digitalNewspapers = APInews.getDigitalNewsSourcesByCountry(country);
             }
 
-            if(digitalNewspapers==null)
-                digitalNewspapers = api.getDigitalNewsSources();
+            if(country.equals(null)){
+                digitalNewspapers = APInews.getDigitalNewsSources();
+            }
 
+            DataManager.deleteDigitalNewspapers(getContext());
+            DataManager.saveDigitalNewspapers(digitalNewspapers, getContext());
 
-            return digitalNewspapers;
+            return null;
         }
 
-        @Override
+        /*@Override
         protected void onPostExecute(ArrayList<DigitalNewspapers> newspapers) {
             super.onPostExecute(newspapers);
             adapter.clear();
@@ -109,6 +126,6 @@ public class MainActivityFragment extends Fragment {
                 Log.w("AsyncTask", "\nURL Logos: " +  dn.getUrlToLogos() + "\nName: " + dn.getName() + "\n\n");
                 adapter.add(dn);
             }
-        }
+        }*/
     }
 }

@@ -1,11 +1,15 @@
 package com.example.a47276138y.newsapp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +20,17 @@ import com.example.a47276138y.newsapp.utilities.APInews;
 
 import java.util.ArrayList;
 
+import nl.littlerobots.cupboard.tools.provider.UriHelper;
+
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
+
 /**
  * A placeholder fragment containing a simple view.
  */
-public class NewsActivityFragment extends Fragment {
+public class NewsActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private ArrayList<PieceOfNews> data;
-    private AdapterPiecesOfNews adapter;
+    private PONCursorAdapter adapter;
 
     public NewsActivityFragment() {
     }
@@ -37,14 +45,16 @@ public class NewsActivityFragment extends Fragment {
 
         data = new ArrayList<>();
 
-        adapter = new AdapterPiecesOfNews(
+        /*adapter = new AdapterPiecesOfNews(
                 getContext(),
                 R.layout.lv_piece_of_news_row,
                 data
-        );
+        );*/
 
+        adapter = new PONCursorAdapter(getContext(), PieceOfNews.class);
         binding.lvNews.setAdapter(adapter);
 
+        getLoaderManager().initLoader(0, null, this);
 
         return view;
     }
@@ -58,13 +68,26 @@ public class NewsActivityFragment extends Fragment {
         task.execute();
     }
 
-    public class GetNewsTask extends AsyncTask<Void, Void, ArrayList<PieceOfNews>>{
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return DataManager.getPONCursorLoader(getContext());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
+    }
+
+    public class GetNewsTask extends AsyncTask<Object, Object, Void> {
 
         @Override
-        protected ArrayList<PieceOfNews> doInBackground(Void... voids) {
+        protected Void doInBackground(Object... voids) {
 
-
-            APInews api = new APInews();
             ArrayList<PieceOfNews> piecesOfNews = null;
 
             String id = "";
@@ -77,23 +100,24 @@ public class NewsActivityFragment extends Fragment {
 
                 id = dn.getId();
 
-                if (dn.getSortBysAvailable().size() > 1) {
-                    for (int i = 0; i < dn.getSortBysAvailable().size(); i++) {
-                        sortByOption = dn.getSortBysAvailable().get(i);
-                        break;
-                    }
-                } else {
-                    sortByOption = dn.getSortBysAvailable().get(0);
+                if(dn.isLatest()){
+                    sortByOption = "latest";
+                }else if(dn.isTop()){
+                    sortByOption = "top";
+                }else if(dn.isPopular()){
+                    sortByOption = "popular";
                 }
             }
 
+            piecesOfNews = APInews.getPON(id, sortByOption, getContext());
 
-            piecesOfNews = api.getPON(id, sortByOption, getContext());
+            DataManager.deletePiecesOfNews(getContext());
+            DataManager.savePiecesOfNews(piecesOfNews, getContext());
 
-            return piecesOfNews;
+            return null;
         }
 
-        @Override
+        /*@Override
         protected void onPostExecute(ArrayList<PieceOfNews> piecesOfNews) {
 
             super.onPostExecute(piecesOfNews);
@@ -102,8 +126,8 @@ public class NewsActivityFragment extends Fragment {
             for (PieceOfNews v : piecesOfNews) {
                 adapter.add(v);
                 Log.w("XXXXXX", v.toString());
-            }
+            }*/
 
         }
     }
-}
+
