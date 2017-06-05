@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.example.a47276138y.newsapp.databinding.FragmentNewsBinding;
 import com.example.a47276138y.newsapp.utilities.APInews;
@@ -55,6 +56,17 @@ public class NewsActivityFragment extends Fragment implements LoaderManager.Load
         binding.lvNews.setAdapter(adapter);
 
         getLoaderManager().initLoader(0, null, this);
+
+        binding.lvNews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                PieceOfNews piece = (PieceOfNews) adapterView.getItemAtPosition(i);
+                Intent intent = new Intent(getContext(), WebViewActivity.class);
+                intent.putExtra("url", piece.getUrlToExtendedPOF());
+                startActivity(intent);
+
+            }
+        });
 
         return view;
     }
@@ -111,8 +123,10 @@ public class NewsActivityFragment extends Fragment implements LoaderManager.Load
 
             piecesOfNews = APInews.getPON(id, sortByOption, getContext());
 
-            DataManager.deletePiecesOfNews(getContext());
-            DataManager.savePiecesOfNews(piecesOfNews, getContext());
+            if(piecesOfNews != null) {
+                DataManager.deletePiecesOfNews(getContext());
+                DataManager.savePiecesOfNews(piecesOfNews, getContext());
+            }
 
             return null;
         }

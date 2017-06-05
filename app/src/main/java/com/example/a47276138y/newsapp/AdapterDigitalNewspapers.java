@@ -45,6 +45,7 @@ public class AdapterDigitalNewspapers extends ArrayAdapter<DigitalNewspapers>{
 
         binding.gvNewspapersName.setText(digitalNewspapers.getName());
         Glide.with(getContext()).load(digitalNewspapers.getUrlToLogos()).into(binding.gvLogoNewspapers);
+        System.out.println("URL to SHOW: "+digitalNewspapers.getUrlToLogos());
 
         return binding.getRoot();
     }

@@ -42,7 +42,7 @@ public class AdapterPiecesOfNews extends ArrayAdapter<PieceOfNews> {
             binding = DataBindingUtil.getBinding(convertView);
         }
 
-        binding.tvPofAuthor.setText(pieceOfNews.getAuthor());
+        binding.tvPofAuthor.setText(pieceOfNews.getAuthor() == "null" ? "Unknown" : pieceOfNews.getAuthor());
         binding.tvPofTitle.setText(pieceOfNews.getTitle());
         Glide.with(getContext()).load(pieceOfNews.getUrlToImage()).into(binding.imgNewsRow);
 
