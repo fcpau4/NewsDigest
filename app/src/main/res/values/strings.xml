@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NewsApp</string>
+    <string name="app_name">News Digest</string>
     <string name="action_settings">Settings</string>
 
     <!-- Text for TextView in the lv_piece_of_news_row.xml -->
@@ -105,6 +105,6 @@
         <item>us</item>
     </string-array>
     <string name="title_activity_news">NewsActivity</string>
-    <string name="title_activity_web_view">WebViewActivity</string>
+    <string name="title_activity_web_view">Beyond</string>
 
 </resources>
